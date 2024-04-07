@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { Suspense } from "react";
+// import NewsFeeds from "./components/NewsFeeds";
+import { React,lazy } from "react";
+
+const Markdown = lazy(() => import("./components/NewsFeeds"));
+const NewsOnSearch = lazy(() => import("./components/NewsSearch"));
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  return ( 
+    <div>
+      {/* GuardiansAPI */}
+      <Suspense fallback={<h1>Searching....</h1>}>
+        <NewsOnSearch />
+      </Suspense>
+
+      {/* NewsAPI */}
+      <Suspense fallback={<h1>Loading.....</h1>}>
+        <Markdown />
+      </Suspense> 
+
     </div>
   );
 }
