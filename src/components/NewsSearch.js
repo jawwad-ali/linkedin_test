@@ -15,7 +15,7 @@ const NewsSearch = () => {
       );
       console.log("SEARCH API", response.data.response.results);
       setNewsData(response.data.response.results);
-    } catch (error) {
+    } catch (error) { 
       console.error("Error fetching news:", error);
     } finally {
       setLoading(false);
