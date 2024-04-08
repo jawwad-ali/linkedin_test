@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Loader from "./Loader";
 
 const NewsSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,30 +24,49 @@ const NewsSearch = () => {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search news..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
-
+      <div class="container">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search..."
+            aria-label="Search"
+            aria-describedby="button-addon2"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button
+            class="btn btn-outline-primary ml-2"
+            type="button"
+            onClick={handleSearch}
+            id="button-addon2"
+          >
+            Search
+          </button>
+        </div>
+      </div>
       {loading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : (
-        <ul>
-          {newsData?.map((article) => (
-            <li key={article.webTitle}>
-              <a
-                href={article.webUrl}
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                {article.webTitle}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <>
+          <div className="container">
+            <div className="row"> 
+              <ol>
+                {newsData?.map((article) => (
+                  <li key={article.webTitle}>
+                    <a
+                      href={article.webUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {article.webTitle}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
