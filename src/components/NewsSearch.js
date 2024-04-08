@@ -3,7 +3,7 @@ import axios from "axios";
 
 const NewsSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [newsData, setNewsData] = useState([]);
+  const [newsData, setNewsData] = useState([]); 
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {

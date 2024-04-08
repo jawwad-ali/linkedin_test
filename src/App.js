@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-// import NewsFeeds from "./components/NewsFeeds";
 import { React,lazy } from "react";
 
 const Markdown = lazy(() => import("./components/NewsFeeds"));
