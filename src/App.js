@@ -1,26 +1,22 @@
 import { Suspense } from "react";
-import { React,lazy } from "react";
+import { React, lazy } from "react";
 import Loader from "./components/Loader";
-import Categories from "./components/Categories";
 
-const Markdown = lazy(() => import("./components/NewsFeeds")); 
+const Markdown = lazy(() => import("./components/NewsFeeds"));
 const NewsOnSearch = lazy(() => import("./components/NewsSearch"));
 
 function App() {
-  return (  
+  return (
     <div>
       {/* GuardiansAPI */}
       <Suspense fallback={<Loader />}>
-        <NewsOnSearch /> 
-      </Suspense>  
-
-      {/* <Categories /> */}
+        <NewsOnSearch />
+      </Suspense>
 
       {/* NYT API */}
       <Suspense fallback={<Loader />}>
         <Markdown />
-      </Suspense> 
-
+      </Suspense>
     </div>
   );
 }

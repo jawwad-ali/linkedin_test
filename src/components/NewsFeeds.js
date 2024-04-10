@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import NewsCard from "./NewsCard";
-import Loader from "./Loader";
 import Categories from "./Categories";
 
 const NewsFeeds = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [_, setLoading] = useState([]);
 
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -14,27 +13,32 @@ const NewsFeeds = () => {
 
   useEffect(() => {
     // Fetching articles by category from NEWSAPI
-    const fetchData = async () => {
+    const fetchArticleByCategory = async () => {
       try {
         const response = await axios.get(
           "https://newsapi.org/v2/top-headlines/sources?apiKey=f1daf82e495748ffa4e91160a20b3246"
         );
         const articlesData = response.data.sources;
         setArticles(articlesData);
+
+        // There are no duplicates in categories 
         const uniqueCategories = [
           ...new Set(articlesData.map((article) => article.category)),
         ];
-        setCategories(uniqueCategories); 
+        setCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    console.log(categories)
-    fetchData()
+    fetchArticleByCategory();
   }, []);
 
+  console.log(categories);
+  console.log("Category Articles", articles);
+  console.log("selectedCategory", selectedCategory);
+
   const newsFeeds = () => {
-    // Fetching articles from New York Times. By Default these articles will be shown 
+    // Fetching articles from New York Times. By Default these articles will be shown
     try {
       setLoading(true);
       axios
@@ -56,9 +60,8 @@ const NewsFeeds = () => {
     newsFeeds();
   }, []);
 
-
   return (
-    <div className="container" key={Math.random() * 10}>
+    <div className="container">
       <div className="row">
         <div className="col-md-12">
           <Categories
@@ -70,15 +73,10 @@ const NewsFeeds = () => {
           />
         </div>
 
-        {/* Spacer Column */}
-        {/* <div className="col-md-1"></div> */}
-
         {/* Card Columns */}
-        {
-          selectedCategory.length >0 ? (
-            null 
-          ):(
-            data?.map((item, index) => (
+        {selectedCategory.length > 0
+          ? null
+          : data?.map((item, index) => (
               <NewsCard
                 index={index}
                 img={item.multimedia[0].url}
@@ -86,9 +84,7 @@ const NewsFeeds = () => {
                 description={item.abstract}
                 link={item.url}
               />
-            ))
-          )}
-
+            ))}
       </div>
     </div>
   );
