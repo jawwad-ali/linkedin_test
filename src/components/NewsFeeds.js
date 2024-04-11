@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import NewsCard from "./NewsCard";
 import Categories from "./Categories";
 
+import Loader from "./Loader";
+ 
 const NewsFeeds = () => {
   const [data, setData] = useState([]);
-  const [_, setLoading] = useState([]);
+  const [loading, setLoading] = useState([]);
 
   const [articles, setArticles] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -21,7 +23,7 @@ const NewsFeeds = () => {
         const articlesData = response.data.sources;
         setArticles(articlesData);
 
-        // There are no duplicates in categories 
+        // There are no duplicates in categories
         const uniqueCategories = [
           ...new Set(articlesData.map((article) => article.category)),
         ];
@@ -33,15 +35,17 @@ const NewsFeeds = () => {
     fetchArticleByCategory();
   }, []);
 
+  // CONSOLE LOGS
+  console.log("default data", data);
   console.log(categories);
   console.log("Category Articles", articles);
   console.log("selectedCategory", selectedCategory);
 
-  const newsFeeds = () => {
+  const newsFeeds = async () => {
     // Fetching articles from New York Times. By Default these articles will be shown
     try {
       setLoading(true);
-      axios
+      await axios
         .get(
           "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=9j4uzRMC3xL1IPxxjI8WzKhmRCFKB2jQ"
         )
@@ -74,17 +78,19 @@ const NewsFeeds = () => {
         </div>
 
         {/* Card Columns */}
-        {selectedCategory.length > 0
-          ? null
-          : data?.map((item, index) => (
-              <NewsCard
-                index={index}
-                img={item.multimedia[0].url}
-                title={item.title}
-                description={item.abstract}
-                link={item.url}
-              />
-            ))}
+        {loading ? (
+          <Loader />
+        ) : selectedCategory.length > 0 ? null : (
+          data?.map((item, index) => (
+            <NewsCard 
+              index={index}
+              img={item.multimedia[0].url}
+              title={item.title}
+              description={item.abstract}
+              link={item.url}
+            />
+          ))
+        )}
       </div>
     </div>
   );

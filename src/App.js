@@ -10,13 +10,14 @@ function App() {
     <div>
       {/* GuardiansAPI */}
       <Suspense fallback={<Loader />}>
-        <NewsOnSearch />
+        <NewsOnSearch /> 
       </Suspense>
 
       {/* NYT API */}
       <Suspense fallback={<Loader />}>
         <Markdown />
       </Suspense>
+
     </div>
   );
 }
