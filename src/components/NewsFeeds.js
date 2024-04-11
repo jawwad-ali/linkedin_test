@@ -35,12 +35,6 @@ const NewsFeeds = () => {
     fetchArticleByCategory();
   }, []);
 
-  // CONSOLE LOGS
-  console.log("default data", data);
-  console.log(categories);
-  console.log("Category Articles", articles);
-  console.log("selectedCategory", selectedCategory);
-
   const newsFeeds = async () => {
     // Fetching articles from New York Times. By Default these articles will be shown
     try {
